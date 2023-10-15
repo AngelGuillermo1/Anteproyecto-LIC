@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Quicksand:wght@500&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+* {
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: rgb(181, 255, 193);
+}
+header {
+    overflow: hidden;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 30px;
+    background-color: #008040;
+    height: 130px;
+    display: flex;
+    border: white 10px double;
+}
+header img {
+    padding-top: 9px;
+}
+div.head h2 {
+    font-size: 45px;
+    text-shadow: 3px 3px 2px gray, 4px 4px 3px black;
+    width: auto;
+    position: relative;
+    bottom: 4px;
+}
+
+.card {
+    width: 300px;
+    border-radius: 20px;
+    border: 3px solid rgba(17, 63, 37, 0.993);
+    background-color: white;
+    text-align: center;
+    margin: 5%;
+    overflow: hidden;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+    cursor: default;
+    transition: all 400ms ease;
+}
+.grid-layout{
+    display: grid;
+    grid-template-columns: auto;
+    margin: 0 auto;
+    padding: 20px;
+    justify-content: center;
+    background-color: rgb(69, 160, 76);
+    width: 85%;
+}
+ .content{
+    border: 1px solid #008040;
+    background-color: rgb(181, 255, 193);
+
+ }
+ h1{
+    text-align:  center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: xx-large;
+    color: white;
+    text-shadow: 3px 3px 2px gray, 4px 4px 3px black;
+ }
+ .card:hover{
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3%);
+ }
+ .card img{
+    width: 100%;
+    height: 200px;
+ }
+ .card p{
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+ }
+ .card h3{
+    margin-bottom: 15px;
+ }
+
+ .card a{
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #008040;
+    border: 1px solid #008040;
+    border-radius: 4px;
+    transition: all 400ms ease;
+ }
+ .card a:hover{
+    background: #008040;
+    color: white;
+ }
+ @media screen and (max-width: 480px) {
+   body {
+       margin: 0;
+       padding: 0;
+   }
+   header  {
+       overflow: hidden;
+       width: 100%;
+       height: 150px;
+       display:flex;
+   }
+   header nav {
+       float: left;
+   }
+   header img {
+       margin: 0 auto;
+   }
+   .CheckBtn {
+       display: block;
+   }
+   nav ul {
+       position: fixed;
+       width: 100%;
+       left: -450px;
+       top: 150px;
+       background-color: #008040;
+       display: flex;
+       height: 60%;
+       flex-direction: column;
+       z-index: 2;
+       transition: all .5s;
+   }
+   nav ul li {
+       display: block;
+   }
+   #check:checked ~ ul {
+       left: 0px;
+   }
+}
