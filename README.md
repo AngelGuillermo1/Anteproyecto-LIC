@@ -1,4 +1,4 @@
-# anteproyecto
+# anteproyecto LIC GT02
    Nombres:
 -Angel Guillermo Sanchez Mangandi SM192656
 -Justin Alfredo Vásquez Alfaro VA211514
