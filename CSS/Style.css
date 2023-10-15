@@ -73,7 +73,7 @@ div.imagen span a {
     text-decoration: none;
 }
 footer.Pie_Pagina div{
-    border: ridge 5px darkgreen;
+    border: ridge 5px rgb(1, 145, 1);
     background-color:rgba(24, 122, 24, 0.7);
     width: 99%;
     height: 70px;
