@@ -3,6 +3,8 @@
 import { saveProduct, getProducts, getProductListSize, 
     deleteProduct, getProduct, updateProduct } from "./firebase.js";
 
+imprimirFilas();
+
 //declarando variables
 const btnAgregar = document.getElementById("idBtnAgregar");
 const btnActualizar = document.getElementById("idBtnActualizar");
@@ -96,44 +98,11 @@ async function imprimirFilas(){
                             </td>
                         </tr>
     `;
+    count++;
         });
-        count++;
         
     }
     
-    const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnEliminar-Fila");
-    btnEliminar.forEach(btn =>{
-        btn.addEventListener('click',(event)=>{
-            alertify.confirm("¿Está seguro de eliminar los datos?",
-            function(){
-                deleteProduct(event.target.dataset.id);
-                alertify.success("Jugador eliminado de base de datos");
-                imprimirFilas();
-            }, function(){
-                alertify.error("Solicitud cancelada")
-            }
-            );
-        })
-    })
-
-    const btnEditar = document.getElementById("idTableBody").querySelectorAll(".btnEditar-Fila");
-    btnEditar.forEach(btn=>{
-        btn.addEventListener('click', async(event)=>{
-            let jugador = await getProduct(event.target.dataset.id);
-            let id = jugador.id;
-            jugador = jugador.data();
-            document.getElementById("idEditar").value = id;
-            document.getElementById("idTxtEditarNombre").value = jugador.nombre;
-            document.getElementById("idNumEditarEdad").value = jugador.edad;
-            document.getElementById("idNumEditarAltura").value = jugador.altura;
-            document.getElementById("idNumEditarPeso").value = jugador.peso;
-            document.getElementById("idTxtEditarPais").value = jugador.pais;
-
-            let Sexo = document.getElementById("idInputEditarSexo");
-            Sexo.options[Sexo.selectedIndex].text = jugador.sexo;
-        })
-    })
-
 }
 
 async function MostrarJugadores(){
@@ -400,12 +369,45 @@ async function MostrarJugadores(){
                             <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
-                            ${imprimirFilas()}
+                        ${imprimirFilas()}
                         </tbody>
                     </table>
                 </div>
     `;
     tablaJugadores.innerHTML = table;
+
+    const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnELiminar-Fila");
+    btnEliminar.forEach(btn =>{
+        btn.addEventListener('click',(event)=>{
+            alertify.confirm("¿Está seguro de eliminar los datos?",
+            function(){
+                deleteProduct(event.target.dataset.id);
+                alertify.success("Jugador eliminado de base de datos");
+                imprimirFilas();
+            }, function(){
+                alertify.error("Solicitud cancelada")
+            }
+            );
+        })
+    })
+
+    const btnEditar = document.getElementById("idTableBody").querySelectorAll(".btnEditar-Fila");
+    btnEditar.forEach(btn=>{
+        btn.addEventListener('click', async(event)=>{
+            let jugador = await getProduct(event.target.dataset.id);
+            let id = jugador.id;
+            jugador = jugador.data();
+            document.getElementById("idEditar").value = id;
+            document.getElementById("idTxtEditarNombre").value = jugador.nombre;
+            document.getElementById("idNumEditarEdad").value = jugador.edad;
+            document.getElementById("idNumEditarAltura").value = jugador.altura;
+            document.getElementById("idNumEditarPeso").value = jugador.peso;
+            document.getElementById("idTxtEditarPais").value = jugador.pais;
+
+            let Sexo = document.getElementById("idInputEditarSexo");
+            Sexo.options[Sexo.selectedIndex].text = jugador.sexo;
+        })
+    })
 }
 
 
