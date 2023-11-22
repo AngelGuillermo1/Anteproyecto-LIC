@@ -82,6 +82,7 @@ async function imprimirFilas(){
         const ListaJugadores = await getProducts();
         ListaJugadores.forEach(element =>{
             const Jugador = element.data();
+            console.log(Jugador);
             fila += `
                         <tr>
                             <td scope="row" class="text-center fw-bold">${count}</td>
