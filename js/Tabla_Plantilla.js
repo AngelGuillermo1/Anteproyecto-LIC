@@ -469,4 +469,4 @@ async function Buscar(){
 
 btnBuscar.onclick = () => {Buscar();};
 btnAgregar.onclick = () => {Añadir();};
-btnActualizar.onclick = () => {await MostrarJugadores()};
+btnActualizar.onclick = async () => {await MostrarJugadores()};
