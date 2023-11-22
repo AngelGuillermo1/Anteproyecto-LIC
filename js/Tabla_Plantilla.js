@@ -101,7 +101,7 @@ async function imprimirFilas(){
         count++;
         
     }
-    //boton eliminar fallando
+    //botones eliminar y editar fallando
     /*const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnEliminar-Fila");
     btnEliminar.forEach(btn =>{
         btn.addEventListener('click',(event)=>{
@@ -115,7 +115,7 @@ async function imprimirFilas(){
             }
             );
         })
-    })*/
+    })
 
     const btnEditar = document.getElementById("idTableBody").querySelectorAll(".btnEditar-Fila");
     btnEditar.forEach(btn=>{
@@ -133,7 +133,7 @@ async function imprimirFilas(){
             let Sexo = document.getElementById("idInputEditarSexo");
             Sexo.options[Sexo.selectedIndex].text = jugador.sexo;
         })
-    })
+    })*/
 
 }
 
