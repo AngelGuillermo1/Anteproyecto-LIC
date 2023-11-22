@@ -19,12 +19,12 @@ const tablaJugadores = document.getElementById("idTablaJugadores");
 let arrayJugadores_nuevos = [];
 //funcion para limpiar campos
 const Limpiar = () => {
-    TxtNombre = "";
-    NumEdad = "";
-    NumAltura = "";
+    TxtNombre.value = "";
+    NumEdad.value = "";
+    NumAltura.value = "";
     InputSexo.value = 0;
-    NumPeso = "";
-    TxtPais = "";
+    NumPeso.value = "";
+    TxtPais.value = "";
     TxtNombre.focus();
 }
 //comprobar datos datos
@@ -63,40 +63,83 @@ async function Añadir(){
         let nombre = TxtNombre.value;
         let edad = NumEdad.value;
         let altura = NumAltura.value;
-        let sexo = InputSexo.value;
+        let sexo = InputSexo.options[InputSexo.selectedIndex].text;
         let peso = NumPeso.value;
         let pais = TxtPais.value;
-        saveProduct({nombre, edad, altura,sexo, peso, pais});
-        //Limpiar();
-        //btnAgregar.click();
+        saveProduct({nombre, edad, altura, sexo, peso, pais});
+        Limpiar();
         alertify.success('Jugador agregado exitosamente.');
     }
 }
 //agregar fila a la tabla
-function imprimirFilas(){
+async function imprimirFilas(){
     let fila = "";
     let count = 20;
-    arrayJugadores_nuevos.forEach((element) =>{
-        fila += `
-        <tr>
-          <td scope="row" class="text-center fw-bold">${count}</td>
-          <td>${element[0]}</td>
-          <td>${element[1]} años</td>
-          <td>${element[2]} metros</td>
-          <td>${element[3]}</td>
-          <td>${element[4]} libras</td>
-          <td>${element[5]}</td>
-          <td><button id="idBtnEliminar${count}" type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Eliminar"></button>
-          <button id="idBtnEditar${count}" type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Editar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
-          </td>
-        </tr>
-        `;
-        count++;
+    let size = await getProductListSize();
+    if (size == 0){
+        alertify.error('No se ha agregado ningun jugador nuevo');
+    }else{
+        const ListaJugadores = await getProducts();
+        ListaJugadores.forEach(element =>{
+            const Jugador = element.data();
+            fila += `
+                        <tr>
+                            <td scope="row" class="text-center fw-bold">${count}</td>
+                            <td>${Jugador.nombre}</td>
+                            <td>${Jugador.edad} años</td>
+                            <td>${Jugador.altura} metros</td>
+                            <td>${Jugador.sexo}</td>
+                            <td>${Jugador.peso} libras</td>
+                            <td>${Jugador.pais}</td>
+                            <td><button id="${element.id}" type="button" class="btn btn-danger bi bi-trash3-fill btnEliminar-Fila" alt="Eliminar"></button>
+                            <button id="${element.id}" type="button" class="btn btn-primary bi bi-pencil-square btnEditar-Fila" alt="Editar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+    `;
+    count++;
+        });
+        
+    }
+    
+    const btnEliminar = document.getElementById("idTableBody").querySelectorAll('.btnEliminar-Fila');
+    btnEliminar.forEach(btn =>{
+        btn.addEventListener('click',(event)=>{
+            alertify.confirm("¿Está seguro de eliminar los datos?",
+            function(){
+                deleteProduct(event.target.dataset.id);
+                alertify.success("Jugador eliminado de base de datos");
+                imprimirFilas();
+            }, function(){
+                alertify.error("Solicitud cancelada")
+            }
+            );
+        })
     })
-    return fila;
+
+    const btnEditar = document.getElementById("idTableBody").querySelectorAll('.btnEditar-Fila');
+    btnEditar.forEach(btn=>{
+        btn.addEventListener('click', async(event)=>{
+            let jugador = await getProduct(event.target.dataset.id);
+            let id = jugador.id;
+            jugador = jugador.data();
+            document.getElementById("idEditar").value = id;
+            document.getElementById("idTxtEditarNombre").value = jugador.nombre;
+            document.getElementById("idNumEditarEdad").value = jugador.edad;
+            document.getElementById("idNumEditarAltura").value = jugador.altura;
+            document.getElementById("idNumEditarPeso").value = jugador.peso;
+            document.getElementById("idTxtEditarPais").value = jugador.pais;
+
+            let Sexo = document.getElementById("idInputEditarSexo");
+            Sexo.options[Sexo.selectedIndex].text = jugador.sexo;
+        })
+    })
+
 }
-//mostrar datos
-const MostrarJugadores = () => {
+
+async function MostrarJugadores(){
     let table = `
     <div class="table-responsive">
                     <table class="table table-striped border-success table-hover table-bordered" id="table">
@@ -368,6 +411,22 @@ const MostrarJugadores = () => {
     tablaJugadores.innerHTML = table;
 }
 
+
+document.querySelector("#btnEditarFila").onclick = function(){
+    const id = document.getElementById("idEditar").value;
+    const nombre = document.getElementById("idTxtEditarNombre").value
+    const edad = document.getElementById("idNumEditarEdad").value
+    const altura = document.getElementById("idNumEditarAltura").value
+    const peso = document.getElementById("idNumEditarPeso").value
+    const pais = document.getElementById("idTxtEditarPais").value
+    const sltsexo = document.getElementById("idInputEditarSexo");
+    const sexo = sltsexo.options[sltsexo.selectedIndex].text;
+    updateProduct(id,{nombre, edad,altura,peso, pais,sexo});
+    alertify.success("Datos del jugador actualizados");
+    imprimirFilas();
+
+}
+
 tablaJugadores.addEventListener("click", Eliminar);
 function Eliminar(fila){
     const tabla = document.querySelector("#table");
@@ -395,7 +454,7 @@ function Conteo(){
 
 }
 
-function Buscar(){
+async function Buscar(){
     let buscar = InputBuscar.value.toString().toLowerCase();
     const tabla = document.querySelector("#table");
     let filas =document.getElementsByTagName("tr");
@@ -407,9 +466,9 @@ function Buscar(){
             filas[i].style.visibility = "";
         }
     }
-    return buscar = "";
+    return InputBuscar.value = "";
 }
 
 btnBuscar.onclick = () => {Buscar();};
 btnAgregar.onclick = () => {Añadir();};
-btnActualizar.onclick = () => {MostrarJugadores(); Conteo()};
+btnActualizar.onclick = () => {MostrarJugadores();};
