@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="CSS/contador.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <title>COMPRA DE BOLETOS</title>
+</head>
+<body >
+    <header class="Padre">
+        <img src="IMAGENES/Celtics_Boston.png"  width="150px" alt="Boston">
+        <div class="head">
+            <h2>Boston Celtics</h2>
+        </div>
+            <nav>
+                <input type="checkbox" id="check">
+                <label for="check" class="CheckBtn">
+                    <i class="fas fa-bars"></i>
+                </label>
+                <ul>
+                    <li><a href="Index.html" class="bi bi-star">Inicio</a></li>
+                    <li><a href="Noticias.html" class="bi bi-newspaper"> Noticias</a></li>
+                    <li><a href="plantilla_admin.html" class="bi bi-person-arms-up"> Plantilla</a></li>
+                    <li><a href="Calendario.html" class="bi bi-calendar-minus"> Calendario</a></li>
+                    <li><a href="Historia.html" class="bi bi-info-square"> Historia</a></li>
+                    <li><a href="Login.html" class="bi bi-person-check"> Login</a></li>
+                </ul>
+            </nav>
+    </header>
+    <div class="formulario">
+        <br>
+        <form id="compraForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <br>
+            <label for="email">Correo Electronico:</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+        </form>
+        <details>
+            <summary>Datos de la tarjeta:</summary>
+            <div>
+                    <br>
+                    <label for="digitos">Número de tarjeta</label>
+                    <input type="text" placeholder="Ingrese los 16 digitos de su tarjeta" maxlength="16" name="digitos"><br><br>
+                    <label for="titular">Titular de la tarjeta</label>
+                    <input type="text" placeholder="Ingrese el titular de la tarjeta" name="titular"><br><br>
+                    <label for="vencimiento">Fecha de caducidad</label>
+                    <input type="text" placeholder="Ingrese la fecha de vencimiento de su tarjeta" name="vencimiento"><br><br>
+                    <label for="cvv">Código de seguridad</label>
+                    <input type="password" placeholder="CVV" name="cvv"><br><br>
+                    <input type="radio">Guardar informacion <br><br>
+                    <br><br>
+                    <p>Total: <span id="contador">$0</span></p>
+                    <p>Entradas: <span id="contador2">0</span></p>
+                    <button onclick="incrementarContador()">+</button>
+                    <button onclick="decrementarContador()">-</button>
+                </form>
+            </div>
+        </details>
+        <button type="button" onclick="realizarCompra()">Comprar Boletos</button>
+    </div>
+        <script>
+            let count2=0;
+            let count1=0;
+            const contadorElement=document.getElementById("contador");
+            const contador2Elemnt=document.getElementById("contador2");
+    
+            function incrementarContador() {
+                count1+= 25;
+                count2++;
+                actualizarContador();
+            }
+    
+            function decrementarContador() {
+                if(count1>0){
+                    count1-= 25;
+                    count2--;
+                    actualizarContador();
+                }
+            }
+    
+            function actualizarContador() {
+                contadorElement.textContent=count1;
+                contador2Elemnt.textContent=count2;
+            }
+
+            function realizarCompra(){
+                alert("Compra realizada con éxito")
+            }
+        </script>
+</body>
+</html>

@@ -95,16 +95,13 @@ async function imprimirFilas(){
                             <button id="${element.id}" type="button" class="btn btn-primary bi bi-pencil-square btnEditar-Fila" alt="Editar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
     `;
-    count++;
         });
+        count++;
         
     }
     
-    const btnEliminar = document.getElementById("idTableBody").querySelectorAll('.btnEliminar-Fila');
+    const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnEliminar-Fila");
     btnEliminar.forEach(btn =>{
         btn.addEventListener('click',(event)=>{
             alertify.confirm("¿Está seguro de eliminar los datos?",
@@ -119,7 +116,7 @@ async function imprimirFilas(){
         })
     })
 
-    const btnEditar = document.getElementById("idTableBody").querySelectorAll('.btnEditar-Fila');
+    const btnEditar = document.getElementById("idTableBody").querySelectorAll(".btnEditar-Fila");
     btnEditar.forEach(btn=>{
         btn.addEventListener('click', async(event)=>{
             let jugador = await getProduct(event.target.dataset.id);
