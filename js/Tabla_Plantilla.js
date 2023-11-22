@@ -101,8 +101,8 @@ async function imprimirFilas(){
         count++;
         
     }
-    
-    const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnEliminar-Fila");
+    //boton eliminar fallando
+    /*const btnEliminar = document.getElementById("idTableBody").querySelectorAll(".btnEliminar-Fila");
     btnEliminar.forEach(btn =>{
         btn.addEventListener('click',(event)=>{
             alertify.confirm("¿Está seguro de eliminar los datos?",
@@ -115,7 +115,7 @@ async function imprimirFilas(){
             }
             );
         })
-    })
+    })*/
 
     const btnEditar = document.getElementById("idTableBody").querySelectorAll(".btnEditar-Fila");
     btnEditar.forEach(btn=>{
