@@ -1,4 +1,9 @@
 
+//importando metodos de firebase.js
+import { saveProduct, getProducts, getProductListSize, 
+    deleteProduct, getProduct, updateProduct } from "./firebase.js";
+
+//declarando variables
 const btnAgregar = document.getElementById("idBtnAgregar");
 const btnActualizar = document.getElementById("idBtnActualizar");
 const btnBuscar = document.getElementById("idBtnBuscar");
@@ -10,43 +15,64 @@ const InputSexo = document.getElementById("idInputSexo");
 const NumPeso = document.getElementById("idNumPeso");
 const TxtPais = document.getElementById("idTxtPais");
 const tablaJugadores = document.getElementById("idTablaJugadores");
-
+//creando un arreglo
 let arrayJugadores_nuevos = [];
-
+//funcion para limpiar campos
 const Limpiar = () => {
     TxtNombre = "";
     NumEdad = "";
     NumAltura = "";
-    inputSexo.value = 0;
+    InputSexo.value = 0;
     NumPeso = "";
     TxtPais = "";
     TxtNombre.focus();
 }
-
-const añadir = function() {
+//comprobar datos datos
+const comprobar = function() {
     let nombre = TxtNombre.value;
     let edad = NumEdad.value;
     let altura = NumAltura.value;
     let sexo = InputSexo.value;
-    let labelsexo = InputSexo.options[InputSexo.selectedIndex].text;
     let peso = NumPeso.value;
     let pais = TxtPais.value;
-    if(
-        nombre != "" &&
-        edad != "" &&
-        altura != "" &&
-        sexo != 0 &&
-        peso != "" &&
-        pais != "" 
-    ){
-        arrayJugadores_nuevos.push(new Array(nombre,edad,altura,labelsexo,peso,pais));
-        alert("Se ha registrado nuevo jugador");
-        Limpiar();
-    }else {
-        alert("No se ha podido registrar el jugador, revise los campos");
-    }
+     if(nombre == ""){
+        alertify.warning('Debe ingresar un nombre.');
+        return false;
+     } else if(parseFloat(edad)<=0 || isNaN(parseFloat(edad))){
+        alertify.warning('Debe ingresar una edad valida.');
+        return false;
+     } else if(parseFloat(altura)<=0 || isNaN(parseFloat(altura))){
+        alertify.warning('Debe ingresar una altura valida.');
+        return false;
+     } else if(sexo == 0){
+        alertify.warning('Debe seleccionar un sexo.');
+        return false;
+     } else if(peso == "" && peso < 0){
+        alertify.warning('Debe ingresar una altura válida.');
+        return false;
+     } else if(pais == ""){
+        alertify.warning('Debe ingresar un país válido.');
+        return false;
+     } else {
+        return true;
+     }
 }
 
+async function Añadir(){
+    if(comprobar()){
+        let nombre = TxtNombre.value;
+        let edad = NumEdad.value;
+        let altura = NumAltura.value;
+        let sexo = InputSexo.value;
+        let peso = NumPeso.value;
+        let pais = TxtPais.value;
+        saveProduct({nombre, edad, altura,sexo, peso, pais});
+        //Limpiar();
+        //btnAgregar.click();
+        alertify.success('Jugador agregado exitosamente.');
+    }
+}
+//agregar fila a la tabla
 function imprimirFilas(){
     let fila = "";
     let count = 20;
@@ -60,8 +86,8 @@ function imprimirFilas(){
           <td>${element[3]}</td>
           <td>${element[4]} libras</td>
           <td>${element[5]}</td>
-          <td><button id="idBtnEliminar${count}" type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-          <button id="idBtnEditar${count}" type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+          <td><button id="idBtnEliminar${count}" type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Eliminar"></button>
+          <button id="idBtnEditar${count}" type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Editar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
           </td>
         </tr>
         `;
@@ -69,7 +95,7 @@ function imprimirFilas(){
     })
     return fila;
 }
-
+//mostrar datos
 const MostrarJugadores = () => {
     let table = `
     <div class="table-responsive">
@@ -97,7 +123,7 @@ const MostrarJugadores = () => {
                             <td>Canadá</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -110,7 +136,7 @@ const MostrarJugadores = () => {
                             <td>Canadá</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -123,7 +149,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -136,7 +162,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -149,7 +175,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -162,7 +188,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -175,7 +201,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -188,7 +214,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -201,7 +227,7 @@ const MostrarJugadores = () => {
                             <td>Canadá</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -214,7 +240,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -227,7 +253,7 @@ const MostrarJugadores = () => {
                             <td>Ucrania</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -240,7 +266,7 @@ const MostrarJugadores = () => {
                             <td>Letonia</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -253,7 +279,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -266,7 +292,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -279,7 +305,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -292,7 +318,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -305,7 +331,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -318,7 +344,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                         <tr>
@@ -331,7 +357,7 @@ const MostrarJugadores = () => {
                             <td>Estados Unidos</td>
                             <td>
                             <button type="button" class="btn btn-danger bi bi-trash3-fill btnEliminarFila" alt="Editar"></button>
-                            <button type="button" class="btn btn-primary bi bi-pencil-square" alt="Eliminar"></button>
+                            <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
                             ${imprimirFilas()}
@@ -385,5 +411,5 @@ function Buscar(){
 }
 
 btnBuscar.onclick = () => {Buscar();};
-btnAgregar.onclick = () => {añadir();};
+btnAgregar.onclick = () => {Añadir();};
 btnActualizar.onclick = () => {MostrarJugadores(); Conteo()};

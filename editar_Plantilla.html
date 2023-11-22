@@ -9,6 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="icon" href="IMAGENES/Celtics_Boston.png" sizes="32x32" type="image/png" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 </head>
 <body class="body">
     <header class="Padre">
@@ -117,7 +124,85 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-lg">
+                    <div class="row">
+                        <div class="col-12 shadow-lg p-3 mt-5 bg-body rounded">
+                            <h1>Editar plantilla de jugadores</h1>
+                            <form id="idform">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="idTxtEditarNombre" placeholder="Nombre del jugador"/>
+                                            <label for="idTxtEditarNombre">
+                                                <i class="bi bi-person-circle"></i> Nombre y apellido del jugador
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="idNumEditarEdad" placeholder="Edad del jugador"/>
+                                            <label for="idNumEditarEdad">
+                                                <i class="bi bi-123"></i> Edad del jugador
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="idNumEditarAltura" placeholder="Altura"/>
+                                            <label for="idNumEditarAltura">
+                                                <i class="bi bi-rulers"></i> Altura
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="idInputEditarSexo"><i class="bi bi-gender-ambiguous"></i> Sexo</label>
+                                            <select class="form-select" id="idInputEditarSexo">
+                                              <option value="0" selected>Elija una opción</option>
+                                              <option value="1">Hombre</option>
+                                              <option value="2">Mujer</option>
+                                              <option value="3">No especificar</option>
+                                            </select>
+                                          </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="idNumEditarPeso" placeholder="Peso"/>
+                                            <label for="idNumPeso">
+                                                <i class="bi bi-rulers"></i> Peso
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="idTxtEditarPais" placeholder="Pais"/>
+                                            <label for="idTxtEditarPais">
+                                                <i class="bi bi-map"></i> País de nacimiento
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="btnCerrarModal" data-bs-dismiss="modal">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="js/Tabla_Plantilla.js" defer></script>
+    <script type="module" src="js/Tabla_Plantilla.js" defer></script>
 </body>
 </html>
