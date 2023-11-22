@@ -400,7 +400,7 @@ async function MostrarJugadores(){
                             <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
-                            ${imprimirFilas()}
+                            ${await imprimirFilas()}
                         </tbody>
                     </table>
                 </div>
