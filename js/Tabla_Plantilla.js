@@ -84,6 +84,7 @@ async function imprimirFilas(){
         const ListaJugadores = await getProducts();
         ListaJugadores.forEach(element =>{
             const Jugador = element.data();
+            console.log(Jugador);
             fila += `
                         <tr>
                             <td scope="row" class="text-center fw-bold">${count}</td>
@@ -369,7 +370,7 @@ async function MostrarJugadores(){
                             <button type="button" class="btn btn-primary bi bi-pencil-square btnEditarFila" alt="Eliminar" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
                             </td>
                         </tr>
-                        ${imprimirFilas()}
+                            ${await imprimirFilas()}
                         </tbody>
                     </table>
                 </div>
@@ -470,4 +471,4 @@ async function Buscar(){
 
 btnBuscar.onclick = () => {Buscar();};
 btnAgregar.onclick = () => {Añadir();};
-btnActualizar.onclick = () => {MostrarJugadores();};
+btnActualizar.onclick = async () => {await MostrarJugadores()};
