@@ -1,7 +1,7 @@
 
 //importando metodos de firebase.js
 import { saveProduct, getProducts, getProductListSize, 
-    deleteProduct, getProduct, updateProduct } from "./firebase.js";
+    deleteProduct, getProduct, updateProduct } from "../firebase.js";
 
 imprimirFilas();
 
